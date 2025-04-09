@@ -1,227 +1,65 @@
-<!DOCTYPE html>
-<html dir="ltr">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="keywords"
-      content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Matrix lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Matrix admin lite design, Matrix admin lite dashboard bootstrap 5 dashboard template"
-    />
-    <meta
-      name="description"
-      content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework"
-    />
-    <meta name="robots" content="noindex,nofollow" />
-    <title>Matrix Admin</title>
-    <!-- Favicon icon -->
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="{{asset('assets/images/favicon.png')}}"
-    />
-    <!-- Custom CSS -->
-    <link href="{{asset('dist/css/style.min.css')}}" rel="stylesheet" />
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
+<!doctype html>
+<html lang="en">
 
-  <body>
-    <div class="main-wrapper">
-      <!-- ============================================================== -->
-      <!-- Preloader - style you can find in spinners.css -->
-      <!-- ============================================================== -->
-      <div class="preloader">
-        <div class="lds-ripple">
-          <div class="lds-pos"></div>
-          <div class="lds-pos"></div>
-        </div>
-      </div>
-      <!-- ============================================================== -->
-      <!-- Preloader - style you can find in spinners.css -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Login box.scss -->
-      <!-- ============================================================== -->
-      <div
-        class="
-          auth-wrapper
-          d-flex
-          no-block
-          justify-content-center
-          align-items-center
-          bg-dark
-        "
-      >
-        <div class="auth-box bg-dark border-top border-secondary">
-          <div id="loginform">
-            <div class="text-center pt-3 pb-3">
-              <span class="db"
-                ><img src="{{asset('assets/images/logo.png" alt="logo')}}"
-              /></span>
-            </div>
-            <!-- Form -->
-            <form
-              class="form-horizontal mt-3"
-              id="loginform"
-              action="index.html"
-            >
-              <div class="row pb-4">
-                <div class="col-12">
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span
-                        class="input-group-text bg-success text-white h-100"
-                        id="basic-addon1"
-                        ><i class="mdi mdi-account fs-4"></i
-                      ></span>
-                    </div>
-                    <input
-                      type="text"
-                      class="form-control form-control-lg"
-                      placeholder="Username"
-                      aria-label="Username"
-                      aria-describedby="basic-addon1"
-                      required=""
-                    />
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login admin</title>
+  <link rel="shortcut icon" type="image/png" href="{{asset('src/assets/images/logos/favicon.png')}}" />
+  <link rel="stylesheet" href="{{asset('src/assets/css/styles.min.css')}}" />
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <div
+      class="position-relative overflow-hidden text-bg-light min-vh-100 d-flex align-items-center justify-content-center">
+      <div class="d-flex align-items-center justify-content-center w-100">
+        <div class="row justify-content-center w-100">
+          <div class="col-md-8 col-lg-6 col-xxl-3">
+            <div class="card mb-0">
+              <div class="card-body">
+                <a href="{{asset('./index.html')}}" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                  <img src="{{asset('src/assets/images/logos/logo.svg')}}" alt="">
+                </a>
+                <p class="text-center">Your Social Campaigns</p>
+                <form action="{{route('auth')}}" method="POST">
+                  @csrf
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
                   </div>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span
-                        class="input-group-text bg-warning text-white h-100"
-                        id="basic-addon2"
-                        ><i class="mdi mdi-lock fs-4"></i
-                      ></span>
-                    </div>
-                    <input
-                      type="text"
-                      class="form-control form-control-lg"
-                      placeholder="Password"
-                      aria-label="Password"
-                      aria-describedby="basic-addon1"
-                      required=""
-                    />
+                  <div class="mb-4">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
                   </div>
-                </div>
+                  <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div class="form-check">
+                      <input class="form-check-input primary" type="checkbox" value="" id="flexCheckChecked" checked>
+                      <label class="form-check-label text-dark" for="flexCheckChecked">
+                        Remeber this Device
+                      </label>
+                    </div>
+                    <a class="text-primary fw-bold" href="{{asset('./index.html')}}">Forgot Password ?</a>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign In</button>
+                  <div class="d-flex align-items-center justify-content-center">
+                    <p class="fs-4 mb-0 fw-bold">New to MaterialM?</p>
+                    <a class="text-primary fw-bold ms-2" href="{{asset('./authentication-register.html')}}">Create an account</a>
+                  </div>
+                </form>
               </div>
-              <div class="row border-top border-secondary">
-                <div class="col-12">
-                  <div class="form-group">
-                    <div class="pt-3">
-                      <button
-                        class="btn btn-info"
-                        id="to-recover"
-                        type="button"
-                      >
-                        <i class="mdi mdi-lock fs-4 me-1"></i> Lost password?
-                      </button>
-                      <button
-                        class="btn btn-success float-end text-white"
-                        type="submit"
-                      >
-                        Login
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div id="recoverform">
-            <div class="text-center">
-              <span class="text-white"
-                >Enter your e-mail address below and we will send you
-                instructions how to recover a password.</span
-              >
-            </div>
-            <div class="row mt-3">
-              <!-- Form -->
-              <form class="col-12" action="index.html">
-                <!-- email -->
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span
-                      class="input-group-text bg-danger text-white h-100"
-                      id="basic-addon1"
-                      ><i class="mdi mdi-email fs-4"></i
-                    ></span>
-                  </div>
-                  <input
-                    type="text"
-                    class="form-control form-control-lg"
-                    placeholder="Email Address"
-                    aria-label="Username"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-                <!-- pwd -->
-                <div class="row mt-3 pt-3 border-top border-secondary">
-                  <div class="col-12">
-                    <a
-                      class="btn btn-success text-white"
-                      href="#"
-                      id="to-login"
-                      name="action"
-                      >Back To Login</a
-                    >
-                    <button
-                      class="btn btn-info float-end"
-                      type="button"
-                      name="action"
-                    >
-                      Recover
-                    </button>
-                  </div>
-                </div>
-              </form>
             </div>
           </div>
         </div>
       </div>
-      <!-- ============================================================== -->
-      <!-- Login box.scss -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Page wrapper scss in scafholding.scss -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Page wrapper scss in scafholding.scss -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Right Sidebar -->
-      <!-- ============================================================== -->
-      <!-- ============================================================== -->
-      <!-- Right Sidebar -->
-      <!-- ============================================================== -->
     </div>
-    <!-- ============================================================== -->
-    <!-- All Required js -->
-    <!-- ============================================================== -->
-    <script src="{{asset('assets/libs/jquery/dist/jquery.min.js')}}"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="{{asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- ============================================================== -->
-    <!-- This page plugin js -->
-    <!-- ============================================================== -->
-    <script>
-      $(".preloader").fadeOut();
-      // ==============================================================
-      // Login and Recover Password
-      // ==============================================================
-      $("#to-recover").on("click", function () {
-        $("#loginform").slideUp();
-        $("#recoverform").fadeIn();
-      });
-      $("#to-login").click(function () {
-        $("#recoverform").hide();
-        $("#loginform").fadeIn();
-      });
-    </script>
-  </body>
+  </div>
+  <script src="{{asset('assets/libs/jquery/dist/jquery.min.js')}}"></script>
+  <script src="{{asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+  <!-- solar icons -->
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
 </html>
