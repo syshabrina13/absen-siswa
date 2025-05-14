@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('absensis', function (Blueprint $table) {
-            $table->id('id_absen');
-            $table->unsignedBigInteger('id_guru');
-            $table->unsignedBigInteger('id_siswa');
+        Schema::create('mengabsens', function (Blueprint $table) {
+            $table->id();
             $table->date('tanggal_absen');
-            $table->time('jam_masuk');
-            $table->time('jam_keluar')->nullable();
-            $table->enum('status', ['hadir', 'izin', 'alpa', 'sakit']);
+            $table->time('jam_absen');
+            $table->enum('status', ['hadir', 'izin', 'sakit', 'alpa']);
+            $table->foreignId('id_siswa')->references('id')->on('siswas')->onDelete('cascade');
+            $table->foreignId('id_guru')->references('id')->on('gurus')->onDelete('cascade');
             $table->timestamps();
         });
     }

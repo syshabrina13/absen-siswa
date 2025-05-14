@@ -7,8 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lokal extends Model
 {
-    use HasFactory;
+    protected $fillable = ['nama', 'id_jurusan', 'id_guru'];
 
-    protected $table = 'lokals'; // Nama tabel di database
-    protected $fillable = ['nama_kelas']; // Kolom yang dapat diisi
+    public function jurusan()
+    {
+        return $this->belongsTo(Jurusan::class, 'id_jurusan');
+    }
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class, 'id_guru', 'id');
+    }
 }

@@ -1,6 +1,6 @@
-@extends('templates.layouts')
-@section('judul_halaman','Data Siswa')
-@section('kontent')
+@extends('templates.layout')
+@section('title','Data Siswa')
+@section('konten')
 <div class="row mt-5">
 <div class="col-6">
     <div class="card">

@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('gurus', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('username')->unique();
+            $table->string('nama', 30);
+            $table->string('nip', 20);
+            $table->string('nohp', 13);
+            $table->enum('jk', ['L', 'P']);
+            $table->date('tanggal_lahir');
+            $table->string('username', 30);
             $table->string('password');
-            $table->unsignedBigInteger('id_user');
+            $table->foreignId('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

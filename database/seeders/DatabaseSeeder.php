@@ -19,12 +19,12 @@ class DatabaseSeeder extends Seeder
 
         // User::factory()->create([
             
-        //     'username' => 'inaa',
+        //     'username' => 'admin',
         //     'password' => Hash::make('123'), // Hash the password
         // ]);
 
         DB::table('users')->insert([
-            'username' => 'inaa',
+            'username' => 'admin',
             'password' => Hash::make('123'), // Hash the password
         ]);
     }
