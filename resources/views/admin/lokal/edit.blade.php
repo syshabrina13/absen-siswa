@@ -19,7 +19,7 @@
 
                     <div class="col mt-2">
                         <button type="submit" class="btn btn-primary float-right">Simpan</button>
-                        <a href="{{ route('lokal.index') }}" class="btn btn-secondary float-right mr-2">Kembali</a>
+                        <a href="{{ route('admin.lokal.index') }}" class="btn btn-secondary float-right mr-2">Kembali</a>
                     </div>
                 </form>
             </div>

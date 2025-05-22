@@ -24,6 +24,7 @@
                     <a href="{{route('siswa.index')}}" class="btn btn-primary">
                         <i class="bi bi-arrow-left"></i> Kembali
                     </a>
+                    <a href="{{ route('pengajuan.index') }}">Pengajuan</a>
                     <button type="reset" class="btn btn-warning">
                         <i class="bi bi-arrow-clockwise"></i> Reset
                     </button>

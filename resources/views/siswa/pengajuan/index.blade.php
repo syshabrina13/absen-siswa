@@ -9,6 +9,12 @@
         <h5 class="card-title">Pengajuan {{ $siswa->nama }}</h5>
     </div>
     <div class="card-body">
+        @if($siswa)
+            Nama: {{ $siswa->nama }}
+        @else
+            <span class="text-danger">Data siswa tidak ditemukan.</span>
+        @endif
+
         <table class="table table-bordered">
             <thead>
                 <tr class="text-center">

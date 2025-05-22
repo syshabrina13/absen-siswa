@@ -16,7 +16,7 @@
                         <td>{{ $lokal->nama_kelas }}</td>
                     </tr>
                 </table>
-                <a href="{{ route('lokal.index') }}" class="btn btn-secondary mt-3">Kembali</a>
+                <a href="{{ route('admin.lokal.index') }}" class="btn btn-secondary mt-3">Kembali</a>
             </div>
         </div>
     </div>

@@ -9,6 +9,8 @@ class Notifikasi extends Model
 {
     use HasFactory;
 
+    protected $table = 'notifikasis'; // pastikan nama tabel sesuai migrasi
+
     protected $fillable = [
         'title',
         'message',
@@ -20,5 +22,10 @@ class Notifikasi extends Model
     public function guru()
     {
         return $this->belongsTo(Guru::class, 'id_guru');
+    }
+
+    public function pengajuan()
+    {
+        return $this->belongsTo(Pengajuan::class, 'id_pengajuan');
     }
 }

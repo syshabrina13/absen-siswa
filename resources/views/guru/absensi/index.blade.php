@@ -7,23 +7,28 @@
 <div class="card">
     <h5 class="card-header">Management Data Absen</h5>
     <div class="card-body">
-        <form method="GET" action="{{ route('absen.index') }}">
-            <div class="row">
+        <form method="GET" action="{{ route('absen.index') }}" class="mb-3">
+            <div class="row align-items-end">
                 <div class="col-md-4">
-                    <select name="kelas" class="form-control">
+                    <label for="kelas" class="form-label">Kelas</label>
+                    <select name="kelas" id="kelas" class="form-control">
                         <option value="">Pilih Kelas</option>
                         @foreach($lokals as $lokal)
-                        <option value="{{ $lokal->id }}" {{ request('kelas') == $lokal->id ? 'selected' : '' }}>
-                            {{ $lokal->nama }}
-                        </option>
+                            <option value="{{ $lokal->id }}" {{ request('kelas') == $lokal->id ? 'selected' : '' }}>
+                                {{ $lokal->nama }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <input type="date" name="tanggal_absen" class="form-control" value="{{ request('tanggal_absen') }}">
+                    <label for="tanggal_absen" class="form-label">Tanggal Absen</label>
+                    <input type="date" name="tanggal_absen" id="tanggal_absen" class="form-control" value="{{ request('tanggal_absen') }}">
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <button type="submit" class="btn btn-primary w-100">Filter</button>
+                </div>
+                <div class="col-md-2">
+                    <a href="{{ route('absen.index') }}" class="btn btn-secondary w-100">Reset</a>
                 </div>
             </div>
         </form>
@@ -55,7 +60,6 @@
                     <td>{{$da->guru->nama}}</td>
                     <td>
                         <a href="{{ route('absen.edit', $da->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-
                     </td>
                 </tr>
                 @endforeach

@@ -9,7 +9,9 @@ use App\Http\Controllers\LokalController;
 use App\Http\Controllers\RekapController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\JurusanController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PengajuanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -52,17 +54,17 @@ Route::delete('/guru/delete/{id}', [GuruController::class, 'destroy'])->name('gu
 // Rekap for siswa
 Route::get('/rekap', [RekapController::class, 'index'])->name('rekap.index');// Menampilkan rekap absen siswa
 
+
 // Pengajuan for siswa
 Route::get('/pengajuan/index', [GuruController::class, 'Pengajuan'])->name('pengajuan.index'); // Menampilkan daftar pengajuan
 Route::get('/pengajuan/create', [GuruController::class, 'createPengajuan'])->name('pengajuan.create'); // Form tambah data pengajuan
-Route::post('/pengajuan/store', [GuruController::class, 'storePengajuan'])->name('pengajuan.store');
-
+Route::post('/pengajuan/store', [PengajuanController::class, 'store'])->name('pengajuan.store');
 // Absensi for Guru
 Route::get('/absensi', [GuruController::class, 'absensi'])->name('guru.absensi');
 Route::post('/absensi/store', [GuruController::class, 'storeAbsensi'])->name('guru.absensi.store');
 
 // Lokal
-Route::get('/lokal', [LokalController::class, 'index'])->name('lokal.index'); // Menampilkan daftar lokal
+Route::get('/lokal', [LokalController::class, 'index'])->name('admin.lokal.index'); // Menampilkan daftar lokal
 Route::get('/lokal/create', [LokalController::class, 'create'])->name('lokal.create'); // Form tambah data lokal
 Route::post('/lokal/store', [LokalController::class, 'store'])->name('lokal.store'); // Menyimpan data lokal
 Route::get('/lokal/{id}', [LokalController::class, 'show'])->name('lokal.show'); // Menampilkan detail lokal
@@ -107,3 +109,5 @@ Route::post('absen/updateStatus', [AbsenController::class, 'updateStatus'])->nam
 Route::get('absen/{id}/edit', [AbsenController::class, 'edit'])->name('absen.edit');
 Route::put('absen/{id}', [AbsenController::class, 'update'])->name('absen.update');
 
+Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+Route::get('/rekap-guru', [App\Http\Controllers\GuruController::class, 'rekap'])->name('guru.rekap');

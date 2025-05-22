@@ -6,6 +6,7 @@ use App\Models\Guru;
 use App\Models\Lokal;
 use App\Models\Jurusan;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class LokalController extends Controller
 {
@@ -40,7 +41,7 @@ class LokalController extends Controller
         ]);
 
         Lokal::create($request->all()); // Simpan data lokal
-        return redirect()->route('lokal.index')->with('success', 'Data lokal berhasil ditambahkan.');
+        return redirect()->route('admin.lokal.index')->with('success', 'Data lokal berhasil ditambahkan.');
     }
 
     // Menampilkan detail data lokal

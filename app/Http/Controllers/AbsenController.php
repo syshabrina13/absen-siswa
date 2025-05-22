@@ -23,7 +23,7 @@ class AbsenController extends Controller
         }
 
         if ($request->has('tanggal_absen') && $request->tanggal_absen != '') {
-            $query->whereDate('tanggal', $request->tanggal_absen);
+            $query->whereDate('tanggal_absen', $request->tanggal_absen);
         }
 
         $dataabsen = $query->get();
@@ -189,7 +189,7 @@ class AbsenController extends Controller
         }
 
         if ($request->has('tanggal_absen') && $request->tanggal_absen != '') {
-            $query->whereDate('tanggal', $request->tanggal_absen);
+            $query->whereDate('tanggal_absen', $request->tanggal_absen);
         }
 
         $dataabsen = $query->get();

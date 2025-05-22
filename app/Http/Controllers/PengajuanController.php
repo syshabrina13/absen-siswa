@@ -7,9 +7,9 @@ use App\Models\Lokal;
 use App\Models\Siswa;
 use App\Models\Mengabsen;
 use App\Models\Pengajuan;
+use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 
 class PengajuanController extends Controller
 {
@@ -35,43 +35,41 @@ class PengajuanController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $currentDate = now()->toDateString();
-        $currentTime = now()->toTimeString();
+{
+    $request->validate([
+        'keterangan' => 'required',
+        'foto' => 'required|image',
+    ]);
 
-        $nm = $request->foto;
-        $namaFile = $nm->getClientOriginalName();
+    $nm = $request->file('foto');
+    $namaFile = $nm->getClientOriginalName();
 
-        // Get the logged-in siswa
-        $siswa = Siswa::where('username', Auth::user()->username)->firstOrFail();
+    $siswa = Siswa::where('username', Auth::user()->username)->firstOrFail();
+    $lokal = Lokal::findOrFail($siswa->id_lokal);
+    $id_guru = $lokal->id_guru;
 
-        // Get the id_guru from id_lokal of the logged-in siswa
-        $lokal = Lokal::findOrFail($siswa->id_lokal);
-        $id_guru = $lokal->id_guru;
+    $pengajuan = new Pengajuan();
+    $pengajuan->keterangan = $request->keterangan;
+    $pengajuan->tanggal_pengajuan = now()->toDateString();
+    $pengajuan->jam_absen = now()->toTimeString();
+    $pengajuan->status = 'menunggu';
+    $pengajuan->foto = $namaFile;
+    $pengajuan->id_siswa = $siswa->id;
+    $pengajuan->id_guru = $id_guru;
+    $nm->move(public_path('foto'), $namaFile);
+    $pengajuan->save();
 
-        $pengajuan = new Pengajuan();
-        $pengajuan->keterangan = $request->keterangan;
-        $pengajuan->tanggal_pengajuan = $currentDate;
-        $pengajuan->jam_absen = $currentTime;
-        $pengajuan->status = 'menunggu';
-        $pengajuan->foto = $namaFile;
-        $pengajuan->id_siswa = $siswa->id;
-        $pengajuan->id_guru = $id_guru;
+    // Buat notifikasi
+    Notifikasi::create([
+        'title' => 'Pengajuan Baru',
+        'message' => 'Pengajuan baru dari ' . $siswa->nama,
+        'id_pengajuan' => $pengajuan->id,
+        'id_guru' => $id_guru,
+        'is_read' => false,
+    ]);
 
-        $nm->move(public_path() . '/foto', $namaFile);
-        $pengajuan->save();
-
-        // Create a new notification for the guru
-        Notification::create([
-            'title' => 'Pengajuan Baru',
-            'message' => 'Pengajuan baru dari ' . $siswa->nama,
-            'id_pengajuan' => $pengajuan->id,
-            'id_guru' => $id_guru,
-            'is_read' => false, // Set is_read to false
-        ]);
-
-        return redirect()->route('pengajuan.index')->with('success', 'Pengajuan berhasil disimpan.');
-    }
+    return redirect()->route('pengajuan.index')->with('success', 'Pengajuan berhasil disimpan.');
+}
 
     public function index3()
     {
@@ -125,8 +123,7 @@ class PengajuanController extends Controller
             ]);
         }
 
-        // Mark the related notification as read
-        Notification::where('id_pengajuan', $id)->update(['is_read' => true]);
+        Notifikasi::where('id_pengajuan', $id)->update(['is_read' => true]);
 
         return redirect()->route('dashboard-walikelas')->with('success', 'Status pengajuan berhasil diperbarui, data absen disimpan, dan notifikasi dihapus.');
     }

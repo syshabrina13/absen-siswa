@@ -3,7 +3,7 @@
 @section('konten')
 <div class="d-flex mb-2">
     <a href="{{route('jurusan.create')}}" class="btn btn-success btn-custom-width"><i class="fas fa-plus"></i> Tambah Data Jurusan</a>
-    <a href="{{route('lokal.index')}}" class="btn btn-primary btn-custom-width" style="margin-left: 30px;"><i class="fas fa-arrow-left"></i> Kembali</a>
+    <a href="{{route('admin.lokal.index')}}" class="btn btn-primary btn-custom-width" style="margin-left: 30px;"><i class="fas fa-arrow-left"></i> Kembali</a>
 </div>
 <div class="row">
     <div class="col">

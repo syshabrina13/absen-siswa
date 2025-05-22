@@ -9,19 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('notifikasis', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('notifikasis');
-    }
+    public function up()
+{
+    Schema::table('notifikasis', function (Blueprint $table) {
+        $table->string('title')->nullable();
+        $table->text('message')->nullable();
+    });
+}
+public function down()
+{
+    Schema::table('notifikasis', function (Blueprint $table) {
+        $table->dropColumn(['title', 'message']);
+    });
+}
 };

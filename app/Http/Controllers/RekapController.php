@@ -21,4 +21,23 @@ class RekapController extends Controller
             'rekapAbsensi' => $rekapAbsensi
         ]);
     }
+    public function rekap(Request $request)
+{
+    $bulan = $request->input('bulan', now()->month);
+    $tahun = $request->input('tahun', now()->year);
+    $siswa = Siswa::where('id_user', Auth::id())->first();
+
+    $rekapAbsensi = Mengabsen::with('guru')
+        ->where('id_siswa', $siswa->id)
+        ->whereMonth('tanggal_absen', $bulan)
+        ->whereYear('tanggal_absen', $tahun)
+        ->get();
+
+    return view('siswa.rekap', [
+        'rekapAbsensi' => $rekapAbsensi,
+        'siswa' => $siswa,
+    ]);
 }
+
+}
+

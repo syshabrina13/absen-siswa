@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\User;
+use App\Models\Pengajuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class GuruController extends Controller
 {
@@ -19,9 +21,6 @@ class GuruController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.guru.create', [
@@ -30,9 +29,6 @@ class GuruController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validasi = $request->validate([
@@ -44,6 +40,8 @@ class GuruController extends Controller
             'username' => 'required',
             'password' => 'required',
             'id_user' => 'nullable',
+            'keterangan' => 'required',
+            'foto' => 'required|image',
         ], [
             'nama.required' => 'Nama Harus Diisi',
             'nip.required' => 'NIP Harus Diisi',
@@ -52,13 +50,16 @@ class GuruController extends Controller
             'tanggal_lahir.required' => 'Tanggal Lahir Harus Diisi',
             'username.required' => 'Username Harus Diisi',
             'password.required' => 'Password Harus Diisi',
+            'keterangan' => 'harus diisi',
+            'foto' => 'required|image',
         ]);
+
         $user = new User();
         $user->username = $validasi['username'];
         $user->password = bcrypt($validasi['password']);
-        $user->level = 'guru'; // Default level guru
+        $user->level = 'guru';
         $user->save();
-        
+
         $guru = new Guru;
         $guru->nama = $validasi['nama'];
         $guru->nip = $validasi['nip'];
@@ -69,6 +70,7 @@ class GuruController extends Controller
         $guru->password = $validasi['password'];
         $guru->id_user = $user->id;
         $guru->save();
+
         return redirect(route('guru.index'));
     }
 
@@ -82,9 +84,6 @@ class GuruController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function edit($id)
     {
         $guru = Guru::find($id);
@@ -108,7 +107,7 @@ class GuruController extends Controller
             'id_user' => 'nullable',
         ]);
 
-        $guru = guru::findOrFail($id);
+        $guru = Guru::findOrFail($id);
         $guru->nama = $validasi['nama'] ?? $guru->nama;
         $guru->nip = $validasi['nip'] ?? $guru->nip;
         $guru->nohp = $validasi['nohp'] ?? $guru->nohp;
@@ -118,7 +117,6 @@ class GuruController extends Controller
         if ($request->filled('password')) {
             $guru->password = bcrypt($validasi['password']);
         }
-
         $guru->save();
 
         $user = User::findOrFail($guru->id_user);
@@ -127,23 +125,67 @@ class GuruController extends Controller
             $user->password = bcrypt($validasi['password']);
         }
         $user->save();
+
         return redirect(route('guru.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        $guru = guru::findOrFail($id);
+        $guru = Guru::findOrFail($id);
 
-        // Hapus user yang terkait jika ada
         if ($guru->id_user) {
             User::where('id', $guru->id_user)->delete();
         }
 
-        // Hapus guru
         $guru->delete();
         return redirect(route('guru.index'));
+    }
+
+    public function rekap(Request $request)
+    {
+        $bulan = $request->get('bulan', date('n'));
+        $tahun = $request->get('tahun', date('Y'));
+
+        $siswas = \App\Models\Siswa::with(['mengabsen' => function($query) use ($bulan, $tahun) {
+            $query->whereMonth('tanggal_absen', $bulan)
+                  ->whereYear('tanggal_absen', $tahun);
+        }])->get();
+
+        return view('guru.laporan', [
+            'absensis' => $siswas,
+            'bulan' => $bulan,
+            'tahun' => $tahun
+        ]);
+    }
+
+    public function Pengajuan()
+    {
+        $pengajuans = Pengajuan::all();
+        $siswa = Auth::user()->siswa ?? null;
+        return view('siswa.pengajuan.index', compact('pengajuans', 'siswa'));
+    }
+
+    public function createPengajuan()
+    {
+        $siswa = Auth::user()->siswa ?? null;
+        return view('siswa.pengajuan.create', compact('siswa'));
+    }
+
+    public function storePengajuan(Request $request)
+    {
+        $request->validate([
+            'keterangan' => 'required',
+            'foto' => 'required|image',
+        ]);
+
+        $fotoPath = $request->file('foto')->store('pengajuan', 'public');
+
+        Pengajuan::create([
+            'keterangan' => $request->keterangan,
+            'foto' => $fotoPath,
+            'id_siswa' => Auth::user()->siswa->id ?? null,
+        ]);
+
+        return redirect()->route('pengajuan.index')->with('success', 'Pengajuan berhasil dikirim!');
     }
 }
